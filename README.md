@@ -13,7 +13,9 @@
 
 2. 作业二
 
-```with tur as (select tu.sex, tr.movieid movieid, avg(tr.rate) avgrate, count(tu.userid) total from t_user tu, t_rating tr where tu.userid=tr.userid and tu.sex="M" group by tr.movieid, tu.sex) select tur.sex sex, tm.moviename name, avgrate, total from tur, t_movie tm where tur.movieid=tm.movieid and total > 50 order by avgrate desc limit 10;```
+```
+with tur as (select tu.sex, tr.movieid movieid, avg(tr.rate) avgrate, count(tu.userid) total from t_user tu, t_rating tr where tu.userid=tr.userid and tu.sex="M" group by tr.movieid, tu.sex) select tur.sex sex, tm.moviename name, avgrate, total from tur, t_movie tm where tur.movieid=tm.movieid and total > 50 order by avgrate desc limit 10;
+```
 
 第一步，通过userid关联t_user表和t_rating表，并筛选sex字段为"M"的数据，根据movieid和sex字段进行分组，查询sex、movieid、rate的平均值及各组数据的计数值，并将结果保存为临时中间表tur。
 
@@ -22,13 +24,15 @@
 
 3. 作业三
 
-```with tur as 
+```
+with tur as 
 (select tu.userid, count(1) sum from t_user tu, t_rating tr where tu.userid=tr.userid and tu.sex="F" group by tu.userid order by sum desc limit 1),
 t_id_rate as 
 (select movieid, rate from tur, t_rating where t_rating.userid=tur.userid order by rate desc, movieid limit 10),
 t_id_avg as 
 (select t_id_rate.movieid, avg(t_rating.rate) avgrate from t_id_rate, t_rating where t_id_rate.movieid=t_rating.movieid group by t_id_rate.movieid)
-select t_movie.moviename `t.moviename`, t_id_avg.avgrate `t.avgrate` from t_id_avg, t_movie where t_movie.movieid=t_id_avg.movieid```
+select t_movie.moviename `t.moviename`, t_id_avg.avgrate `t.avgrate` from t_id_avg, t_movie where t_movie.movieid=t_id_avg.movieid
+```
 
 第一步，通过userid关联t_user和t_rating表，筛选sex为"F"的数据，根据userid进行分组，同时根据各分组的计数值进行降序排列，选取计数值最大的数据，查询其userid以及计数值并保存为临时中间表tur即找到了评论最多的女士的userid。
 
