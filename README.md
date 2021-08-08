@@ -14,7 +14,9 @@
 2. 作业二
 
 ```
-with tur as (select tu.sex, tr.movieid movieid, avg(tr.rate) avgrate, count(tu.userid) total from t_user tu, t_rating tr where tu.userid=tr.userid and tu.sex="M" group by tr.movieid, tu.sex) select tur.sex sex, tm.moviename name, avgrate, total from tur, t_movie tm where tur.movieid=tm.movieid and total > 50 order by avgrate desc limit 10;
+with tur as 
+(select tu.sex, tr.movieid movieid, avg(tr.rate) avgrate, count(tu.userid) total from t_user tu, t_rating tr where tu.userid=tr.userid and tu.sex="M" group by tr.movieid, tu.sex) 
+select tur.sex sex, tm.moviename name, avgrate, total from tur, t_movie tm where tur.movieid=tm.movieid and total > 50 order by avgrate desc limit 10;
 ```
 
 第一步，通过userid关联t_user表和t_rating表，并筛选sex字段为"M"的数据，根据movieid和sex字段进行分组，查询sex、movieid、rate的平均值及各组数据的计数值，并将结果保存为临时中间表tur。
